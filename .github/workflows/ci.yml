@@ -27,8 +27,6 @@ jobs:
 
       # Install pnpm
       - uses: pnpm/action-setup@v4
-        with:
-          version: 8
 
       # Cache node_modules
       - uses: actions/setup-node@v4
