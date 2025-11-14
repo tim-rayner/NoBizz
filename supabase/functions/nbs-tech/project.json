@@ -1,0 +1,13 @@
+{
+  "name": "nbs-tech",
+  "root": "supabase/functions/nbs-tech",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "command": "supabase functions serve nbs-tech"
+    },
+    "deploy": {
+      "command": "supabase functions deploy nbs-tech"
+    }
+  }
+}
