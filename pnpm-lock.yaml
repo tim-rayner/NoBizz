@@ -69,6 +69,9 @@ importers:
       '@swc/helpers':
         specifier: ~0.5.11
         version: 0.5.17
+      '@types/node':
+        specifier: 20.11.5
+        version: 20.11.5
       '@types/react':
         specifier: 18.3.1
         version: 18.3.1
