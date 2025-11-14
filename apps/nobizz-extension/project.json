@@ -1,0 +1,25 @@
+{
+  "name": "nobizz-extension",
+  "sourceRoot": "apps/nobizz-extension/src",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "plasmo dev"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "plasmo build"
+      }
+    },
+    "package": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "plasmo package"
+      }
+    }
+  }
+}
