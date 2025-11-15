@@ -91,3 +91,10 @@ export async function generateContentHash(
   return hashHex;
 }
 
+// ============================================================================
+// Content Extraction
+// ============================================================================
+
+export { extractContent, extractContentSafe } from './content-extractor.ts';
+export type { ExtractedContent } from './content-extractor.ts';
+

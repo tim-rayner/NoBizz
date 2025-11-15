@@ -24,6 +24,14 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "permissions": [
+      "activeTab",
+      "tabs",
+      "scripting"
+    ],
     "host_permissions": [
       "https://*/*"
     ]
