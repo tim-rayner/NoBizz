@@ -9,7 +9,9 @@ The following environment variables are required for the function to work:
 1. **REDIS_REST_URL** - Upstash Redis REST API URL
 2. **REDIS_REST_TOKEN** - Upstash Redis REST API token
 3. **REPLICATE_API_TOKEN** - Replicate API token
-4. **SUPABASE_URL** - Your Supabase project URL
+4. **REPLICATE_MODEL_VERSION** - Replicate model version ID (get from model page)
+5. **PROJECT_URL** - Your Supabase project URL (note: cannot use SUPABASE_ prefix)
+6. **WEBHOOK_SECRET** - Secret token for webhook authentication (recommended for production)
 
 ## Local Development Setup
 
@@ -32,9 +34,16 @@ REDIS_REST_TOKEN=your-redis-rest-token
 
 # Replicate API
 REPLICATE_API_TOKEN=r8_your-replicate-api-token
+REPLICATE_MODEL_VERSION=26b2c530f16236a4816611509730c2e6f7b27875a6d33ec5cff42961750c98d8
 
-# Supabase URL (use local for local dev)
-SUPABASE_URL=http://127.0.0.1:54321
+# Project URL (use local for local dev)
+# Note: Cannot use SUPABASE_ prefix (reserved by Supabase)
+PROJECT_URL=http://127.0.0.1:54321
+
+# Webhook Secret (optional but recommended for production)
+# Generate a secure random string (e.g., using openssl rand -hex 32)
+# This secret is included in the webhook URL to authenticate Replicate callbacks
+WEBHOOK_SECRET=your-secure-random-secret-token
 ```
 
 **Important:** Add `supabase/.env` to `.gitignore` to avoid committing secrets:
@@ -66,8 +75,12 @@ For production deployment, set secrets using Supabase CLI:
 supabase secrets set REDIS_REST_URL=https://your-redis-instance.upstash.io
 supabase secrets set REDIS_REST_TOKEN=your-redis-rest-token
 supabase secrets set REPLICATE_API_TOKEN=r8_your-replicate-api-token
-supabase secrets set SUPABASE_URL=https://your-project-ref.supabase.co
+supabase secrets set REPLICATE_MODEL_VERSION=26b2c530f16236a4816611509730c2e6f7b27875a6d33ec5cff42961750c98d8
+supabase secrets set PROJECT_URL=https://your-project-ref.supabase.co
+supabase secrets set WEBHOOK_SECRET=your-secure-random-secret-token
 ```
+
+**Important:** The function includes a `supabase.functions.config.json` file that sets `"auth": false` to allow public access to the webhook endpoint. This file must be deployed with the function for webhooks to work without authentication headers.
 
 ## Getting Your Credentials
 
@@ -81,9 +94,13 @@ supabase secrets set SUPABASE_URL=https://your-project-ref.supabase.co
 ### Replicate API
 
 1. Sign up or log in at [Replicate](https://replicate.com/)
-2. Go to **Account** → **API Tokens**
-3. Create a new token (or use an existing one)
-4. Copy the token (it starts with `r8_`)
+2. Navigate to the model page: https://replicate.com/google-deepmind/gemma-2b
+3. Find the latest version ID (it's a long hash)
+4. Copy the version ID and use it as `REPLICATE_MODEL_VERSION`
+   - Current version ID: `26b2c530f16236a4816611509730c2e6f7b27875a6d33ec5cff42961750c98d8`
+5. Go to **Account** → **API Tokens**
+6. Create a new token (or use an existing one)
+7. Copy the token (it starts with `r8_`)
 
 ### Supabase URL
 
@@ -134,12 +151,14 @@ Replace `YOUR_ANON_KEY` with the anon key from `supabase start` output.
 
 ## Environment Variable Reference
 
-| Variable              | Description                                 | Example                                               |
-| --------------------- | ------------------------------------------- | ----------------------------------------------------- |
-| `REDIS_REST_URL`      | Upstash Redis REST API endpoint             | `https://your-redis.upstash.io`                       |
-| `REDIS_REST_TOKEN`    | Upstash Redis REST API authentication token | `AXxxxxx...`                                          |
-| `REPLICATE_API_TOKEN` | Replicate API token for LLM predictions     | `r8_xxxxx...`                                         |
-| `SUPABASE_URL`        | Supabase project URL (local or production)  | `http://127.0.0.1:54321` or `https://xxx.supabase.co` |
+| Variable                  | Description                                 | Example                                               |
+| ------------------------- | ------------------------------------------- | ----------------------------------------------------- |
+| `REDIS_REST_URL`          | Upstash Redis REST API endpoint             | `https://your-redis.upstash.io`                       |
+| `REDIS_REST_TOKEN`        | Upstash Redis REST API authentication token | `AXxxxxx...`                                          |
+| `REPLICATE_API_TOKEN`     | Replicate API token for LLM predictions     | `r8_xxxxx...`                                         |
+| `REPLICATE_MODEL_VERSION` | Replicate model version ID                   | `26b2c530f16236a4816611509730c2e6f7b27875a6d33ec5cff42961750c98d8` |
+| `PROJECT_URL`            | Supabase project URL (local or production)  | `http://127.0.0.1:54321` or `https://xxx.supabase.co` |
+| `WEBHOOK_SECRET`         | Secret token for webhook authentication      | `your-secure-random-secret-token` (generate with `openssl rand -hex 32`) |
 
 ## Troubleshooting
 
@@ -184,7 +203,13 @@ REPLICATE_API_TOKEN=r8_your-replicate-api-token-here
 # Supabase Configuration
 # For local: http://127.0.0.1:54321
 # For production: https://your-project-ref.supabase.co
-SUPABASE_URL=http://127.0.0.1:54321
+# Note: Cannot use SUPABASE_ prefix (reserved by Supabase)
+PROJECT_URL=http://127.0.0.1:54321
+
+# Webhook Secret (optional but recommended for production)
+# Generate with: openssl rand -hex 32
+# This secret authenticates webhook callbacks from Replicate
+WEBHOOK_SECRET=your-secure-random-secret-token
 ```
 
 ## Next Steps

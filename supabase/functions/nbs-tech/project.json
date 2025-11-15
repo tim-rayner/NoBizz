@@ -4,10 +4,13 @@
   "projectType": "application",
   "targets": {
     "serve": {
-      "command": "supabase functions serve nbs-tech"
+      "command": "supabase functions serve nbs-tech --env-file supabase/.env --no-verify-jwt"
     },
     "deploy": {
       "command": "supabase functions deploy nbs-tech"
+    },
+    "test": {
+      "command": "cd supabase/functions/nbs-tech && bash test.sh"
     }
   }
 }

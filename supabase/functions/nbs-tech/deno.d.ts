@@ -1,10 +1,7 @@
 // Deno global type declarations for Supabase Edge Functions
-declare namespace Deno {
-  export function serve(handler: (req: Request) => Response | Promise<Response>): void;
-  
-  export namespace env {
-    export function get(key: string): string | undefined;
-    export function set(key: string, value: string): void;
-  }
-}
+// Note: Deno types are provided by deno.ns lib in deno.json
 
+// Extend ImportMeta to include 'main' property for Deno
+interface ImportMeta {
+  main: boolean;
+}

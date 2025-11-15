@@ -553,7 +553,7 @@ The NoBizz Chrome extension calls the Supabase Edge Function to generate summari
 **Example Extension Call:**
 ```typescript
 const response = await fetch(
-  `${SUPABASE_URL}/functions/v1/nbs-tech/generate-summary`,
+  `${PROJECT_URL}/functions/v1/nbs-tech/generate-summary`,
   {
     method: 'POST',
     headers: {
@@ -576,7 +576,7 @@ The function requires the following environment variables:
 - `REDIS_REST_URL` - Upstash Redis REST API URL
 - `REDIS_REST_TOKEN` - Upstash Redis REST API token
 - `REPLICATE_API_TOKEN` - Replicate API token
-- `SUPABASE_URL` - Supabase project URL (for webhook construction)
+- `PROJECT_URL` - Supabase project URL (for webhook construction)
 
 **See:** `ENV_SETUP.md` for detailed setup instructions
 
