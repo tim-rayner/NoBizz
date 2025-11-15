@@ -52,3 +52,4 @@ test-output
 supabase/.env
 supabase/.temp/
 supabase/.branches/
+supabase/functions/*/.env
